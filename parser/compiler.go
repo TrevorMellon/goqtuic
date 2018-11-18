@@ -719,8 +719,19 @@ func (this *compiler) translateLayoutItem(parentWidgetName, parentName string, p
 			this.addSetupUICode(fmt.Sprintf("%s.Add%s(this.%s)", parentName, childType, childName))
 		}
 	}
-	this.addSetupUICode(fmt.Sprintf("this.%s.SetContentsMargins(3,3,3,3)", childName))
 
+	if childType == "Widget" || childType == "Layout" {
+		this.addSetupUICode(fmt.Sprintf("this.%s.SetContentsMargins(3,3,3,3)", childName))
+	}
+
+	/*
+		switch item.View.(type) {
+		case *QLayout:
+			this.addSetupUICode(fmt.Sprintf("this.%s.SetContentsMargins(3,3,3,3)", childName))
+		case *QWidget:
+			this.addSetupUICode(fmt.Sprintf("this.%s.SetContentsMargins(3,3,3,3)", childName))
+		default:
+		}*/
 }
 
 func (this *compiler) translateLayout(parentName string, layout *QLayout) {

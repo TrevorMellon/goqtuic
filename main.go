@@ -2,12 +2,15 @@ package main
 
 import (
 	"flag"
-	"os"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
-	"github.com/stephenlyu/goqtuic/parser"
+
+	//"github.com/stephenlyu/goqtuic/parser"
 	"fmt"
+
+	"./parser"
 )
 
 func translateUIFile(uiFile string, destDir string, testGoFile string) error {
@@ -15,7 +18,7 @@ func translateUIFile(uiFile string, destDir string, testGoFile string) error {
 	base := filepath.Base(uiFile)
 	destDir, _ = filepath.Abs(filepath.Clean(destDir))
 
-	goFile := filepath.Join(destDir, strings.Replace(base, ".", "_", -1) + ".go")
+	goFile := filepath.Join(destDir, strings.Replace(base, ".", "_", -1)+".go")
 	packageName := filepath.Base(destDir)
 
 	err, compiler := parser.NewCompiler(uiFile)
@@ -39,8 +42,8 @@ func translateUIFile(uiFile string, destDir string, testGoFile string) error {
 				if genPackage[0] == filepath.Separator {
 					genPackage = genPackage[1:]
 				}
-				if genPackage[len(genPackage) - 1] == filepath.Separator {
-					genPackage = genPackage[:len(genPackage) - 1]
+				if genPackage[len(genPackage)-1] == filepath.Separator {
+					genPackage = genPackage[:len(genPackage)-1]
 				}
 			}
 		}
@@ -57,7 +60,6 @@ func main() {
 	testGoFile := flag.String("go-test-file", "", "Test go file path")
 
 	flag.Parse()
-
 
 	stat, err := os.Stat(*uiFile)
 	if err != nil {
